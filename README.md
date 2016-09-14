@@ -2,6 +2,24 @@
 
 Create boilerplates fractal components
 
+### Options
+
+    Usage: newcomp [options]
+
+    Options:
+
+      -h, --help        output usage information
+      -V, --version     output the version number
+      -a, --all         make component with all files (Default formats)
+      -n, --nunjucks    nunjucks engine
+      -b, --handlebars  handlerbars engine
+      -r, --readme      readme.md file
+      -c, --css         css file
+      -y, --yaml        yaml file
+      -j, --json        json file
+      -J, --javascript  javascript file
+      -v, --verbose     Verbose mode
+
 ### Examples of use
 
 This command creates three base component files using templates in comp-templates folder
