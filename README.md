@@ -22,8 +22,9 @@ Create boilerplates fractal components
 
 ### Examples of use
 
-This command creates three base component files using templates in comp-templates folder
+This command creates the three base components files using templates in comp-templates folder
   
+    # Create a button component
     newcomp button --nunjucks --css --json
 
 **button.njk**
