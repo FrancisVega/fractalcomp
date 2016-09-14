@@ -1,0 +1,6 @@
+{
+  "name": "@@name",
+  "context": {
+    "modifiers": ["mod01", "mod02"]
+  }
+}

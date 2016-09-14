@@ -1,0 +1,18 @@
+{
+  "name": "newfractalcomp",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "ncomp": "index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francis Vega <hisconer@gmail.com> (inartx.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "colors": "^1.1.2",
+    "fs-extra": "^0.27.0"
+  }
+}

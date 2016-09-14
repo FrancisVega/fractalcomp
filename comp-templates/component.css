@@ -1,0 +1,15 @@
+/* @@@name */
+
+/* Config */
+$@@name__linkColor: #ff00aa;
+$@@name__tinyFont: 1rem;
+
+/* Styles */
+.@@name { }
+.@@name__text {
+  display: block;
+  @element '.@@name' and (min-width: 300) {
+    font-size: $@@name__tinyFont;
+  }
+}
+
