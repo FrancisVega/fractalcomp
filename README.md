@@ -5,6 +5,8 @@ Create boilerplates fractal components
 ### Options
 
 ```bash
+$newcomp --help
+
 Usage: newcomp [options]
 
 Options:
@@ -20,14 +22,16 @@ Options:
   -j, --json        json file
   -J, --javascript  javascript file
   -v, --verbose     Verbose mode
-`````
+```
 
 ### Examples of use
 
 This command creates the three base components files using templates in comp-templates folder
-  
-    # Create a button component
-    newcomp button --nunjucks --css --json
+ 
+```bash 
+# Create a button component
+newcomp button --nunjucks --css --json
+````
 
 **button.njk**
 ```html
