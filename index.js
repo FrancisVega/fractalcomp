@@ -23,7 +23,13 @@ const writeFile = (f, content) => {
 /**
  * Comprueba si existe el archivo f
  */
-const isFile = f => return fs.statSync(f).isFile() || false
+const isFile = f => {
+  try {
+    return fs.statSync(f).isFile()
+  } catch(e) {
+    return false
+  }
+}
 
 /**
  * Obtiene el contenido de un template reemplazando @@name por name
@@ -73,7 +79,7 @@ app
 
 // Si no especificamos un nombre, lo tomamos de la carpeta actual
 if(!app.args[0]) {
-  como.name = path.basename(process.cwd())
+  comp.name = path.basename(process.cwd())
     .split(/\d+[-_ ]+/)
     .join("")
 } else {
