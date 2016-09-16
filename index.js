@@ -84,6 +84,8 @@ if(!app.args[0]) {
   comp.name = path.basename(process.cwd())
     .split(/\d+[-_ ]+/)
     .join("")
+  comp.dir = "."
+  comp.fullPath = `${comp.dir}/${comp.name}`
 } else {
   comp.dir = path.dirname(app.args[0])
   comp.name = path.basename(app.args[0])
@@ -134,11 +136,8 @@ if (app.template)
 
 // Make component dir if needed
 try {
-  console.log(comp.dir);
   fs.mkdirsSync(comp.dir)
-} catch (e) {
-  console.log("No se pudo hacer el directyorio");
-}
+} catch (e) {}
 
 //try {
 
