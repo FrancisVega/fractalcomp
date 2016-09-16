@@ -29,7 +29,7 @@ Options:
 ### Install
 
 ```bash
-npm install && npm link
+npm -g install newfractalcomp
 ```
 
 ### Examples of use
