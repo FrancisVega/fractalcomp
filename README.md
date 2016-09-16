@@ -11,9 +11,8 @@ Usage: newcomp [options]
 
 Options:
 
-  -h, --help        output usage information
-  -V, --version     output the version number
   -a, --all         make component with all files (Default formats)
+  -t, --type <type> Component Engine (nunjucks|handlebars)
   -n, --nunjucks    nunjucks engine
   -b, --handlebars  handlerbars engine
   -r, --readme      readme.md file
@@ -22,16 +21,24 @@ Options:
   -j, --json        json file
   -J, --javascript  javascript file
   -v, --verbose     Verbose mode
+  -h, --help        output usage information
+  -V, --version     output the version number
+```
+
+### Install
+
+```bash
+npm install && npm link
 ```
 
 ### Examples of use
 
 This command creates the three base components files using templates in comp-templates folder
- 
-```bash 
+
+```bash
 # Create a button component
 newcomp button --nunjucks --css --json
-````
+```
 
 **button.njk**
 ```html
@@ -40,7 +47,7 @@ newcomp button --nunjucks --css --json
     <span class="button__text">{{ text }}</span>
 </div>
 ```
-    
+
 **button.css**
 ```css
 /* button */
@@ -68,7 +75,7 @@ $button__tinyFont: 1rem;
     "modifiers": ["mod01", "mod02"]
   }
 }
-````
+```
 
 ### TODO:
 
