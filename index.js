@@ -6,6 +6,7 @@ var exec = require('child_process').exec
 var fs = require('fs-extra')
 var os = require('os')
 var colors = require('colors')
+var R = require('ramda')
 
 /**
  * Escribe datos (string) en un archivo y si existe da un error
