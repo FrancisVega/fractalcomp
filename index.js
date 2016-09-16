@@ -38,7 +38,7 @@ const isFile = f => {
  * @parms name {string} Content of @@name
  * @return {string}
  */
-const contentOfFile = (ftype, name) => {
+const getTemplate = (ctype, ftype, name) => {
   const FTYPES = {
     "nunjucks": "component.njk",
     "handlebars": "component.hbs",
@@ -48,11 +48,13 @@ const contentOfFile = (ftype, name) => {
     "config_json": "component.config.json",
     "config_js": "component.config.js"
   }
-  return fs.readFileSync(`${__dirname}/comp-templates/${FTYPES[ftype]}`, 'utf8')
+  return fs.readFileSync(
+    `${__dirname}/comp-templates/${ctype}/${FTYPES[ftype]}`, 'utf8')
     .replace(/@@name/g, name)
 }
 
 let comp = {
+  "template": "base",
   "type": "nunjucks",
   "path": "",
   "name": "newcomponent",
@@ -66,7 +68,9 @@ let app = require('commander')
 app
   .version('1.0')
   .option('-a, --all', 'make component with all files (Default formats)')
-  .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars)$/i, 'nunjucks')
+  .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars)$/i,
+          'nunjucks')
+  .option('-T, --template <name>', 'File base template')
   .option('-r, --readme', 'readme.md file')
   .option('-c, --css', 'css file')
   .option('-y, --yaml', 'yaml file')
@@ -86,6 +90,9 @@ if(!app.args[0]) {
   comp.fullPath = app.args[0]
 }
 
+// Template
+//comp.template = app.template
+
 // A simple humanize.
 // TODO: Refactor with ramda please :P
 comp.name =
@@ -99,7 +106,6 @@ comp.name =
     }
   })
   .join("")
-
 
 // --all
 if (app.all) {
@@ -123,10 +129,55 @@ if (app.all) {
   if (app.readme) comp.readme = true
 }
 
+if (app.template)
+  comp.template = app.template
+
+// Make component dir if needed
+try {
+  console.log(comp.dir);
+  fs.mkdirsSync(comp.dir)
+} catch (e) {
+  console.log("No se pudo hacer el directyorio");
+}
+
+//try {
+
+// comp
+switch (comp.type) {
+  case 'nunjucks':
+    writeFile(`${comp.fullPath}.njk`, getTemplate(comp.template, "nunjucks", comp.name))
+    break;
+  case 'handlebars':
+    writeFile(`${comp.fullPath}.hbs`, getTemplate(comp.template, "handlebars", comp.name))
+    break;
+}
+
+// config
+switch (comp.config) {
+  case 'javascript':
+    writeFile(`${comp.fullPath}.config.js`, getTemplate(comp.template, "config_js", comp.name))
+    break;
+  case 'json':
+    writeFile(`${comp.fullPath}.config.json`, getTemplate(comp.template, "config_json", comp.name))
+    break;
+  case 'yaml':
+    writeFile(`${comp.fullPath}.config.yaml`, getTemplate(comp.template, "config_yaml", comp.name))
+    break;
+}
+
+// css
+if (comp.css)
+  writeFile(`${comp.fullPath}.css`, getTemplate(comp.template, "css", comp.name))
+
+// readme
+if (comp.readme)
+  writeFile(`${comp.dir}/README.md`, getTemplate(comp.template, "readme", comp.name))
+
 if(app.verbose) {
   console.log("")
   console.log("  New Fractal Component".yellow)
   console.log("")
+  console.log('  Template:  '.gray + comp.template)
   console.log('  Name:      '.gray + comp.name)
   console.log('  Type:      '.gray + comp.type)
   console.log('  Config:    '.gray + comp.config)
@@ -135,41 +186,6 @@ if(app.verbose) {
   console.log("")
 }
 
-// Make component dir if needed
-try {
-  fs.mkdirs(comp.dir)
-} catch (e) {}
-
-
-// comp
-switch (comp.type) {
-  case 'nunjucks':
-    writeFile(`${comp.fullPath}.njk`, contentOfFile("nunjucks", comp.name))
-    break;
-  case 'handlebars':
-    writeFile(`${comp.fullPath}.hbs`, contentOfFile("handlebars", comp.name))
-    break;
-}
-
-// config
-switch (comp.config) {
-  case 'javascript':
-    writeFile(`${comp.fullPath}.config.js`, contentOfFile("config_js", comp.name))
-    break;
-  case 'json':
-    writeFile(`${comp.fullPath}.config.json`, contentOfFile("config_json", comp.name))
-    break;
-  case 'yaml':
-    writeFile(`${comp.fullPath}.config.yaml`, contentOfFile("config_yaml", comp.name))
-    break;
-}
-
-// css
-if (comp.css)
-  writeFile(`${comp.fullPath}.css`, contentOfFile("css", comp.name))
-
-// readme
-if (comp.readme)
-  writeFile(`${comp.dir}/README.md`, contentOfFile("readme", comp.name))
+//} catch(e){ process.exit(1) }
 
 process.exit(0)
