@@ -2,6 +2,8 @@
 
 Create boilerplates fractal components
 
+![vimnewcomp](https://github.com/FrancisVega/fractalcomp/blob/master/assets/newcomp-anim.gif)
+
 ### Options
 
 ```bash
