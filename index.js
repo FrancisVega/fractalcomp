@@ -113,10 +113,10 @@ comp.name =
 
 // --all
 if (app.all) {
-  comp.type = "nunjucks"
-  comp.config = "javascript"
-  comp.styles = true
+  comp.type = "nunjucks" // handlebars
+  comp.config = "javascript" // yaml, json
   comp.readme = true
+  comp.styles = "css" // scss
 } else {
   // Engine
   comp.type = app.type
@@ -170,7 +170,7 @@ switch (comp.config) {
 // styles
 switch (comp.styles) {
   case 'scss':
-    writeFile(`_${comp.fullPath}.scss`, getTemplate(comp.template, "scss", comp.name))
+    writeFile(`${comp.dir}/_${comp.name}.scss`, getTemplate(comp.template, "scss", comp.name))
     break;
   case 'css':
     writeFile(`${comp.fullPath}.css`, getTemplate(comp.template, "css", comp.name))
