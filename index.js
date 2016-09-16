@@ -13,7 +13,7 @@ var R = require('ramda')
  * @parms f {string} El path del archivo a escribir
  * @parms content {string} El contenido que queremos escribir
  */
-const writeFile = function(f, content) {
+const writeFile = (f, content) => {
   if(!isFile(f)){
     fs.writeFileSync(f, content)
   } else {
@@ -24,11 +24,11 @@ const writeFile = function(f, content) {
 /**
  * Comprueba si existe el archivo f
  */
-const isFile = function(f) {
+const isFile = f => {
   try {
-    return fs.statSync(f).isFile();
+    return fs.statSync(f).isFile()
   } catch(e) {
-    return false;
+    return false
   }
 }
 
@@ -38,7 +38,7 @@ const isFile = function(f) {
  * @parms name {string} El texto que quieres reemplazar por @@name
  * @return {string}
  */
-const contentOfFile = function (ftype, name) {
+const contentOfFile = (ftype, name) => {
   const FTYPES = {
     "nunjucks": "component.njk",
     "handlebars": "component.hbs",
@@ -64,7 +64,7 @@ let comp = {
 }
 
 // Commander Parser
-var app = require('commander')
+let app = require('commander')
 app
   .version('1.0')
   .option('-a, --all', 'make component with all files (Default formats)')
@@ -80,10 +80,9 @@ app
 
 // Si no especificamos un nombre, lo tomamos de la carpeta actual
 if(!app.args[0]) {
-  const dirCompName = path.basename(process.cwd())
+  comp.name = path.basename(process.cwd())
     .split(/\d+[-_ ]+/)
     .join("")
-  comp.name = dirCompName
 } else {
   comp.name = app.args[0]
 }
