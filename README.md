@@ -34,8 +34,6 @@ npm install && npm link
 
 ### Examples of use
 
-This command creates the three base components files using templates in comp-templates folder
-
 ```bash
 # Create a button component with the nunjucks file
 newcomp button --type nunjucks --css --json
