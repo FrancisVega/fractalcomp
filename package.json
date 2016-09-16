@@ -1,21 +1,19 @@
 {
   "name": "newfractalcomp",
   "version": "1.0.1",
-  "description": "",
+  "description": "Creates fractal file components",
   "bin": {
     "newcomp": "index.js"
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
   "author": "Francis Vega <hisconer@gmail.com> (inartx.com)",
   "license": "ISC",
-  "devDependencies": {
-    "colors": "^1.1.2",
-    "fs-extra": "^0.27.0"
-  },
   "dependencies": {
+    "colors": "^1.1.2",
+    "fs-extra": "^0.27.0",
     "commander": "^2.9.0",
     "ramda": "^0.22.1"
   }
