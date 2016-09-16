@@ -43,6 +43,7 @@ const getTemplate = (ctype, ftype, name) => {
     "nunjucks": "component.njk",
     "handlebars": "component.hbs",
     "css": "component.css",
+    "scss": "component.scss",
     "readme": "README.md",
     "config_yaml": "component.config.yaml",
     "config_json": "component.config.json",
@@ -61,7 +62,7 @@ let comp = {
   "fullPath": "",
   "config": false,
   "readme": false,
-  "css": false
+  "styles": false
 }
 
 let app = require('commander')
@@ -73,6 +74,7 @@ app
   .option('-T, --template <name>', 'File base template')
   .option('-r, --readme', 'readme.md file')
   .option('-c, --css', 'css file')
+  .option('-s, --scss', 'scss file')
   .option('-y, --yaml', 'yaml file')
   .option('-j, --json', 'json file')
   .option('-J, --javascript', 'javascript file')
@@ -113,14 +115,15 @@ comp.name =
 if (app.all) {
   comp.type = "nunjucks"
   comp.config = "javascript"
-  comp.css = true
+  comp.styles = true
   comp.readme = true
 } else {
   // Engine
   comp.type = app.type
 
-  // CSS
-  if (app.css) comp.css = true
+  // Styles
+  if (app.scss) comp.styles = 'scss'
+  if (app.css) comp.styles = 'css'
 
   // Config File And Format
   if (app.yaml) comp.config = 'yaml'
@@ -164,9 +167,15 @@ switch (comp.config) {
     break;
 }
 
-// css
-if (comp.css)
-  writeFile(`${comp.fullPath}.css`, getTemplate(comp.template, "css", comp.name))
+// styles
+switch (comp.styles) {
+  case 'scss':
+    writeFile(`_${comp.fullPath}.scss`, getTemplate(comp.template, "scss", comp.name))
+    break;
+  case 'css':
+    writeFile(`${comp.fullPath}.css`, getTemplate(comp.template, "css", comp.name))
+    break;
+}
 
 // readme
 if (comp.readme)
@@ -180,7 +189,7 @@ if(app.verbose) {
   console.log('  Name:      '.gray + comp.name)
   console.log('  Type:      '.gray + comp.type)
   console.log('  Config:    '.gray + comp.config)
-  console.log('  CSS:       '.gray + comp.css)
+  console.log('  Styles:    '.gray + comp.styles)
   console.log('  README.md: '.gray + comp.readme)
   console.log("")
 }
