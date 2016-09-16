@@ -20,6 +20,7 @@ Options:
   -b, --handlebars      handlerbars engine
   -r, --readme          readme.md file
   -c, --css             css file
+  -s, --scss            scss file
   -y, --yaml            yaml file
   -j, --json            json file
   -J, --javascript      javascript file
