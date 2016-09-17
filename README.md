@@ -15,12 +15,9 @@ Options:
 
   -a, --all             make component with all files (Default formats)
   -t, --type <type>     Component Engine (nunjucks|handlebars)
+  -T, --styles <type>   Styles format
   -T, --template <name> File base template
-  -n, --nunjucks        nunjucks engine
-  -b, --handlebars      handlerbars engine
   -r, --readme          readme.md file
-  -c, --css             css file
-  -s, --scss            scss file
   -y, --yaml            yaml file
   -j, --json            json file
   -J, --javascript      javascript file
