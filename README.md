@@ -36,7 +36,7 @@ npm -g install newfractalcomp
 
 ```bash
 # Create a button component with the nunjucks file
-newcomp button --type nunjucks --css --json
+newcomp button --type nunjucks --styles css --json
 ```
 
 ```bash
