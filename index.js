@@ -31,17 +31,6 @@ const getTemplate = (ctype, ftype, name) => {
     .replace(/@@name/g, name)
 }
 
-let comp = {
-  "template": "base",
-  "type": "nunjucks",
-  "path": "",
-  "name": "newcomponent",
-  "fullPath": "",
-  "config": false,
-  "readme": false,
-  "styles": "scss"
-}
-
 const app = require('commander')
 app
   .version('1.0')
@@ -53,8 +42,20 @@ app
   .option('-y, --yaml', 'yaml file')
   .option('-j, --json', 'json file')
   .option('-J, --javascript', 'javascript file')
+  .option('-d, --directory', 'Create a directory for the files')
   .option('-v, --verbose', 'Verbose mode')
   .parse(process.argv)
+
+let comp = {
+  "template": "base",
+  "type": "nunjucks",
+  "path": "",
+  "name": "newcomponent",
+  "fullPath": "",
+  "config": false,
+  "readme": false,
+  "styles": "scss"
+}
 
 // If there is no name use the current folder instead.
 if(!app.args[0]) {
@@ -64,9 +65,15 @@ if(!app.args[0]) {
   comp.dir = "."
   comp.fullPath = `${comp.dir}/${comp.name}`
 } else {
-  comp.dir = path.dirname(app.args[0])
+  // if -d create a directory with the component name
   comp.name = path.basename(app.args[0])
   comp.fullPath = app.args[0]
+  if (app.directory) {
+    comp.dir = path.dirname(app.args[0]) + "/" + comp.name
+    console.log("hay dir, así que " + comp.dir)
+  } else {
+    comp.dir = path.dirname(app.args[0])
+  }
 }
 
 // A simple humanize.
@@ -78,7 +85,7 @@ comp.name =
     if (x>0) {
       return `${s.charAt(0).toUpperCase()}${s.slice(1)}`
     } else {
-      return s.toLowerCase();
+      return s.toLowerCase()
     }
   })
   .join("")
@@ -114,34 +121,34 @@ try { fs.mkdirsSync(comp.dir) } catch (e) {}
 // comp
 switch (comp.type) {
   case 'nunjucks':
-    util.writeFile(`${comp.fullPath}.njk`, getTemplate(comp.template, "nunjucks", comp.name))
-    break;
+    util.writeFile(`${comp.dir}/${comp.name}.njk`, getTemplate(comp.template, "nunjucks", comp.name))
+    break
   case 'handlebars':
-    util.writeFile(`${comp.fullPath}.hbs`, getTemplate(comp.template, "handlebars", comp.name))
-    break;
+    util.writeFile(`${comp.dir}/${comp.name}.hbs`, getTemplate(comp.template, "handlebars", comp.name))
+    break
 }
 
 // config
 switch (comp.config) {
   case 'javascript':
-    util.writeFile(`${comp.fullPath}.config.js`, getTemplate(comp.template, "config_js", comp.name))
-    break;
+    util.writeFile(`${comp.dir}/${comp.name}.config.js`, getTemplate(comp.template, "config_js", comp.name))
+    break
   case 'json':
-    util.writeFile(`${comp.fullPath}.config.json`, getTemplate(comp.template, "config_json", comp.name))
-    break;
+    util.writeFile(`${comp.dir}/${comp.name}.config.json`, getTemplate(comp.template, "config_json", comp.name))
+    break
   case 'yaml':
-    util.writeFile(`${comp.fullPath}.config.yaml`, getTemplate(comp.template, "config_yaml", comp.name))
-    break;
+    util.writeFile(`${comp.dir}/${comp.name}.config.yaml`, getTemplate(comp.template, "config_yaml", comp.name))
+    break
 }
 
 // styles
 switch (comp.styles) {
   case 'scss':
     util.writeFile(`${comp.dir}/_${comp.name}.scss`, getTemplate(comp.template, "scss", comp.name))
-    break;
+    break
   case 'css':
-    util.writeFile(`${comp.fullPath}.css`, getTemplate(comp.template, "css", comp.name))
-    break;
+    util.writeFile(`${comp.dir}/${comp.name}.css`, getTemplate(comp.template, "css", comp.name))
+    break
 }
 
 // readme
