@@ -42,7 +42,7 @@ app
   .option('-y, --yaml', 'yaml file')
   .option('-j, --json', 'json file')
   .option('-J, --javascript', 'javascript file')
-  .option('-d, --directory', 'Create a directory for the files')
+  .option('-d, --directory', 'Create a directory for the components files')
   .option('-v, --verbose', 'Verbose mode')
   .parse(process.argv)
 

@@ -21,6 +21,7 @@ Options:
   -y, --yaml            yaml file
   -j, --json            json file
   -J, --javascript      javascript file
+  -d, --directory       Create a directory for the component files
   -v, --verbose         Verbose mode
   -h, --help            output usage information
   -V, --version         output the version number
