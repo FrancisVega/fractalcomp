@@ -6,7 +6,7 @@ const exec = require('child_process').exec
 const fs = require('fs-extra')
 const os = require('os')
 const colors = require('colors')
-//const R = require('ramda')
+const camelCase = require('camelcase')
 const util = require('./util.js')
 
 /**
@@ -70,25 +70,13 @@ if(!app.args[0]) {
   comp.fullPath = app.args[0]
   if (app.directory) {
     comp.dir = path.dirname(app.args[0]) + "/" + comp.name
-    console.log("hay dir, así que " + comp.dir)
   } else {
     comp.dir = path.dirname(app.args[0])
   }
 }
 
-// A simple humanize.
-// TODO: Refactor with ramda please :P
-comp.name =
-  comp.name.toLowerCase()
-  .split(/[-_ ]/g)
-  .map((s, x) => {
-    if (x>0) {
-      return `${s.charAt(0).toUpperCase()}${s.slice(1)}`
-    } else {
-      return s.toLowerCase()
-    }
-  })
-  .join("")
+// camelcase the comp name
+comp.name = camelCase(comp.name)
 
 // --all
 if (app.all) {
