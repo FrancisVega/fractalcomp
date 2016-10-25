@@ -76,14 +76,14 @@ if(!app.args[0]) {
 }
 
 // camelcase the comp name
-comp.name = camelCase(comp.name)
+//comp.name = camelCase(comp.name)
 
 // --all
 if (app.all) {
   comp.type = "nunjucks"
   comp.config = "javascript"
   comp.readme = true
-  comp.styles = "scss"
+  comp.styles = "css"
 } else {
   // Engine
   comp.type = app.type
