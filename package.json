@@ -1,6 +1,6 @@
 {
   "name": "newfractalcomp",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Creates fractal file components",
   "bin": {
     "newcomp": "index.js"
