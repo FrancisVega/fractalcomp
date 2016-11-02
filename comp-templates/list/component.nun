@@ -1,0 +1,8 @@
+{# @@@name #}
+<div class="@@name{% for modifier in modifiers %} @@name--{{ modifier }}{% endfor %}{{ " "+mix+"__@@name" if mix }}">
+    <ul class="@@name__list">
+        {% for item in items %}
+        <li class=@@name__item><a class="@@name__link" href="{{ item.href }}">{{ item.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
