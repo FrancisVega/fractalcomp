@@ -2,6 +2,7 @@
 module.exports = {
   "name": "@@name",
   "context": {
-    "modifiers": ["mod01", "mod02"]
+    "modifiers": [],
+    "mix": ""
   }
 }

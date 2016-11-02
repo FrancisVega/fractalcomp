@@ -17,7 +17,7 @@ const util = require('./util.js')
  */
 const getTemplate = (ctype, ftype, name) => {
   const FTYPES = {
-    "nunjucks": "component.njk",
+    "nunjucks": "component.nun",
     "handlebars": "component.hbs",
     "css": "component.css",
     "scss": "component.scss",
@@ -109,7 +109,7 @@ try { fs.mkdirsSync(comp.dir) } catch (e) {}
 // comp
 switch (comp.type) {
   case 'nunjucks':
-    util.writeFile(`${comp.dir}/${comp.name}.njk`, getTemplate(comp.template, "nunjucks", comp.name))
+    util.writeFile(`${comp.dir}/${comp.name}.nun`, getTemplate(comp.template, "nunjucks", comp.name))
     break
   case 'handlebars':
     util.writeFile(`${comp.dir}/${comp.name}.hbs`, getTemplate(comp.template, "handlebars", comp.name))

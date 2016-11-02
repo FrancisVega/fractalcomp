@@ -1,4 +1,3 @@
 {# @@@name #}
-<div class="@@name{% for modifier in modifiers %}@@name--{{ modifier }}{% endfor %}">
-    <span class="@@name__text">{{ text }}</span>
+<div class="@@name{% for modifier in modifiers %} @@name--{{ modifier }}{% endfor %}{{ " "+mix+"__@@name" if mix }}">
 </div>
