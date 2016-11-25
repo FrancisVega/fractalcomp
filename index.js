@@ -132,10 +132,10 @@ switch (comp.config) {
 // styles
 switch (comp.styles) {
   case 'scss':
-    util.writeFile(`${comp.dir}/_${comp.name}.scss`, getTemplate(comp.template, "scss", comp.name))
+    util.writeFile(`${comp.dir}/_${comp.name}.scss`, getTemplate(comp.template, "scss", camelCase(comp.name)))
     break
   case 'css':
-    util.writeFile(`${comp.dir}/${comp.name}.css`, getTemplate(comp.template, "css", comp.name))
+    util.writeFile(`${comp.dir}/${comp.name}.css`, getTemplate(comp.template, "css", camelCase(comp.name)))
     break
 }
 
