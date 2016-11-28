@@ -6,7 +6,6 @@ const exec = require('child_process').exec
 const fs = require('fs-extra')
 const os = require('os')
 const colors = require('colors')
-const camelCase = require('camelcase')
 const util = require('./util.js')
 
 // Constants
@@ -48,16 +47,16 @@ app
   .option('-v, --verbose', 'Verbose mode')
   .parse(process.argv)
 
-let comp = {
-  'template': 'base',
-  'type': 'nunjucks',
-  'path': '',
-  'name': 'newcomponent',
-  'fullPath': '',
-  'config': false,
-  'readme': false,
-  'styles': 'scss'
-}
+let comp =
+  { 'template': 'base'
+  , 'type': 'nunjucks'
+  , 'path': ''
+  , 'name': 'newcomponent'
+  , 'fullPath': ''
+  , 'config': false
+  , 'readme': false
+  , 'styles': 'scss'
+  }
 
 // If there is no name use the current folder instead.
 if(!app.args[0]) {
@@ -106,95 +105,37 @@ if (app.template)
 try { fs.mkdirsSync(comp.dir) } catch (e) {}
 
 // comp
-switch (comp.type) {
-
-  case 'nunjucks':
-    util.writeFile
-      ( `${comp.dir}/${comp.name}${extensions.nunjucks}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${extensions.nunjucks}`
-        , comp.name
-        )
-      )
-    break
-
-  case 'handlebars':
-    util.writeFile
-      ( `${comp.dir}/${comp.name}${extensions.handlebars}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${extensions.handlebars}`
-        , comp.name
-        )
-      )
-    break
-
-}
+util.writeFile
+  ( `${comp.dir}/${comp.name}${extensions[comp.type]}`
+  , getTemplate
+    ( comp.template
+    , `${compBaseName}${extensions[comp.type]}`
+    , comp.name
+    )
+  )
 
 // config
-switch (comp.config) {
-
-  case 'javascript':
-    util.writeFile
-      ( `${comp.dir}/${comp.name}${compConfigBaseName}${extensions.javascript}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${compConfigBaseName}${extensions.javascript}`
-        , comp.name
-        )
+if(comp.config)
+  util.writeFile
+    ( `${comp.dir}/${comp.name}${compConfigBaseName}${extensions[comp.config]}`
+    , getTemplate
+      ( comp.template
+      , `${compBaseName}${compConfigBaseName}${extensions[comp.config]}`
+      , comp.name
       )
-    break
-
-  case 'json':
-    util.writeFile
-      ( `${comp.dir}/${comp.name}${compConfigBaseName}${extensions.json}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${compConfigBaseName}${extensions.json}`
-        , comp.name
-        )
-      )
-    break
-
-  case 'yaml':
-    util.writeFile
-      ( `${comp.dir}/${comp.name}${compConfigBaseName}${extensions.yaml}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${compConfigBaseName}${extensions.yaml}`
-        , comp.name
-        )
-      )
-    break
-}
+    )
 
 // styles
-switch (comp.styles) {
+if (comp.styles == "scss") { var prefix = "_" } else { var prefix = '' }
 
-  case 'scss':
-    util.writeFile
-      ( `${comp.dir}/_${comp.name}${extensions.scss}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${extensions.scss}`
-        , comp.name
-        )
-      )
-    break
-
-  case 'css':
-    util.writeFile
-      ( `${comp.dir}/${comp.name}${extensions.css}`
-      , getTemplate
-        ( comp.template
-        , `${compBaseName}${extensions.css}`
-        , comp.name
-        )
-      )
-    break
-
-}
+util.writeFile
+  ( `${comp.dir}/${prefix}${comp.name}${extensions[comp.styles]}`
+  , getTemplate
+    ( comp.template
+    , `${compBaseName}${extensions[comp.styles]}`
+    , comp.name
+    )
+  )
 
 // readme
 if (comp.readme)

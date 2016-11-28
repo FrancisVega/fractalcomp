@@ -1,3 +1,0 @@
-{# @lol #}
-<div class="lol{% for modifier in modifiers %} lol--{{ modifier }}{% endfor %}{{ " "+mix+"__lol" if mix }}">
-</div>
