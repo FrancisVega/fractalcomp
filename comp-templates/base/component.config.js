@@ -1,8 +1,8 @@
 /* @@name */
 module.exports = {
-  "name": "@@name",
-  "context": {
-    "modifiers": [],
-    "mix": ""
+  name: "@@name",
+  context: {
+    modifiers: [],
+    mix: ""
   }
 }
