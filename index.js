@@ -44,6 +44,7 @@ app
   .option('-J, --javascript', 'javascript file')
   .option('-d, --directory', 'Create a directory for the components files')
   .option('-v, --verbose', 'Verbose mode')
+  .option('-N, --nc', 'Doest create generic comments')
   .parse(process.argv)
 
 let comp = {
