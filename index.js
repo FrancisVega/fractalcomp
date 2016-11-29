@@ -9,6 +9,20 @@ const colors = require('colors')
 const util = require('./util.js')
 
 /**
+ * Crea el archivo ~/.fractalcomp/config.json si no existe.
+ * Este archivo sirve para configurar nombres y extensiones por defecto.
+ */
+const init = data => {
+  const fractalConfigDir = `${os.homedir()}/.fractalcomp`
+  const fractalConfigFile = `${fractalConfigDir}/config.json`
+
+  try { fs.mkdirsSync(fractalConfigDir) } catch (e) {}
+  if ( util.isFile(fractalConfigFile) === false ) {
+    util.writeJSON(fractalConfigFile, data)
+  }
+}
+
+/**
  * Get a template file replacing @@name with name
  * @parms ftype {string} File type
  * @parms name {string} Content of @@name
@@ -58,6 +72,9 @@ let comp =
   , 'readme': false
   , 'styles': 'css'
   }
+
+// Init
+init ( { extensions, comp } )
 
 // If there is no name use the current folder instead.
 if(!app.args[0]) {

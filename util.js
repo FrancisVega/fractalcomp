@@ -24,6 +24,14 @@ module.exports = {
     } else {
       console.log(`The file ${f} already exists. Better call Saul.`.red);
     }
+  },
+
+  readJSON: function(f) {
+    return JSON.parse(fs.readFileSync(f, 'utf8'));
+  },
+
+  writeJSON: function(f, cnt) {
+    fs.writeFileSync(f, JSON.stringify(cnt, null, 4))
   }
 
 }
