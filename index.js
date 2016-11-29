@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 // Import modules
+// ----------------------------------------------------------------------------
 const path = require('path')
 const exec = require('child_process').exec
 const fs = require('fs-extra')
@@ -8,37 +9,9 @@ const os = require('os')
 const colors = require('colors')
 const util = require('./util.js')
 
-/**
- * Crea el archivo ~/.fractalcomp/config.json si no existe.
- * Este archivo sirve para configurar nombres y extensiones por defecto.
- */
-const setConfig = data => {
-  const fractalConfigDir = `${os.homedir()}/.fractalcomp`
-  const fractalConfigFile = `${fractalConfigDir}/config.json`
 
-  try { fs.mkdirsSync(fractalConfigDir) } catch (e) {}
-  if ( util.isFile(fractalConfigFile) === false ) {
-    util.writeJSON(fractalConfigFile, data)
-  }
-}
-
-/** Read config file */
-const readConfig = data => {
-  const fractalConfigDir = `${os.homedir()}/.fractalcomp`
-  const fractalConfigFile = `${fractalConfigDir}/config.json`
-  return util.readJSON(fractalConfigFile)
-}
-
-/**
- * Get a template file replacing @@name with name
- * @parms ftype {string} File type
- * @parms name {string} Content of @@name
- * @return {string}
- */
-const getTemplate = (ctype, ftype, name) =>
-  fs.readFileSync ( `${__dirname}/comp-templates/${ctype}/${ftype}` , 'utf8' )
-    .replace( /@@name/g, name )
-
+// Commander APP
+// ----------------------------------------------------------------------------
 const app = require('commander')
 app
   .version('1.0.25')
@@ -56,8 +29,9 @@ app
   .parse(process.argv)
 
 
-// Esto crea el archivo de configuración en caso de no existir
-setConfig (
+// Create config file
+// ----------------------------------------------------------------------------
+util.setConfig (
   { "compBaseName": 'component'
   , "compConfigBaseName": '.config'
   , "extensions":
@@ -80,14 +54,18 @@ setConfig (
   }
 )
 
-// Lee el archivo de configuración
-const config = readConfig()
+
+// Read config file
+// ----------------------------------------------------------------------------
+const config = util.readConfig()
 const compBaseName = config.compBaseName
 const compConfigBaseName = config.compConfigBaseName
 const extensions = config.extensions
 const comp = config.comp
 
+
 // If there is no name use the current folder instead.
+// ----------------------------------------------------------------------------
 if(!app.args[0]) {
   comp.name = path.basename(process.cwd())
     .split(/\d+[-_ ]+/)
@@ -105,7 +83,9 @@ if(!app.args[0]) {
   }
 }
 
-// not all
+
+// Settings app values
+// ----------------------------------------------------------------------------
 if (app.all === false) {
   // Engine
   comp.type = app.type
@@ -122,56 +102,83 @@ if (app.all === false) {
   if (app.readme) comp.readme = true
 }
 
+
+// If the user pass a template, asign it to comp.template
+// ----------------------------------------------------------------------------
 if (app.template)
   comp.template = app.template
 
-// Make component dir if needed
+
+// Make component dir if needed.
+// ----------------------------------------------------------------------------
 try { fs.mkdirsSync(comp.dir) } catch (e) {}
 
-// comp
+// Custom comp-templates
+const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`
+
+// Copy base templates if doesnt exists
+fs.copySync(__dirname + '/comp-templates', compTemplates)
+
+
+console.log(compTemplates+"/"+comp.template+"/"+compBaseName+extensions[comp.type]);
+
+// Create Main Component File.
+// ----------------------------------------------------------------------------
 util.writeFile
   ( `${comp.dir}/${comp.name}${extensions[comp.type]}`
-  , getTemplate
-    ( comp.template
+  , util.getTemplate
+    ( compTemplates
+    , comp.template
     , `${compBaseName}${extensions[comp.type]}`
     , comp.name
     )
   )
 
-// config
+
+// Create Component Config File.
+// ----------------------------------------------------------------------------
 if(comp.config)
   util.writeFile
     ( `${comp.dir}/${comp.name}${compConfigBaseName}${extensions[comp.config]}`
-    , getTemplate
-      ( comp.template
+    , util.getTemplate
+      ( compTemplates
+      , comp.template
       , `${compBaseName}${compConfigBaseName}${extensions[comp.config]}`
       , comp.name
       )
     )
 
-// styles
+
+// Create Component Style File.
+// ----------------------------------------------------------------------------
 if (comp.styles == "scss") { var prefix = "_" } else { var prefix = '' }
 
 util.writeFile
   ( `${comp.dir}/${prefix}${comp.name}${extensions[comp.styles]}`
-  , getTemplate
-    ( comp.template
+  , util.getTemplate
+    ( compTemplates
+    , comp.template
     , `${compBaseName}${extensions[comp.styles]}`
     , comp.name
     )
   )
 
-// readme
+// Create Readme File.
+// ----------------------------------------------------------------------------
 if (comp.readme)
   util.writeFile
     ( `${comp.dir}/README.md`
-    , getTemplate
-      ( comp.template
+    , util.getTemplate
+      ( compTemplates
+      , comp.template
       , `README${extensions.markdown}`
       , comp.name
       )
     )
 
+
+// Verbose output
+// ----------------------------------------------------------------------------
 if(app.verbose) {
   console.log('')
   console.log('  New Fractal Component'.yellow)
@@ -185,4 +192,7 @@ if(app.verbose) {
   console.log('')
 }
 
+
+// Bye.
+// ----------------------------------------------------------------------------
 process.exit(0)
