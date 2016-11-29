@@ -41,7 +41,7 @@ const getTemplate = (ctype, ftype, name) =>
 
 const app = require('commander')
 app
-  .version('1.0.23')
+  .version('1.0.24')
   .option('-a, --all', 'make component with all files (Default formats)')
   .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars)$/i, 'nunjucks')
   .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'css')
