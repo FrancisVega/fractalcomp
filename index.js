@@ -12,7 +12,7 @@ const util = require('./util.js')
  * Crea el archivo ~/.fractalcomp/config.json si no existe.
  * Este archivo sirve para configurar nombres y extensiones por defecto.
  */
-const init = data => {
+const setConfig = data => {
   const fractalConfigDir = `${os.homedir()}/.fractalcomp`
   const fractalConfigFile = `${fractalConfigDir}/config.json`
 
@@ -20,6 +20,13 @@ const init = data => {
   if ( util.isFile(fractalConfigFile) === false ) {
     util.writeJSON(fractalConfigFile, data)
   }
+}
+
+/** Read config file */
+const readConfig = data => {
+  const fractalConfigDir = `${os.homedir()}/.fractalcomp`
+  const fractalConfigFile = `${fractalConfigDir}/config.json`
+  return util.readJSON(fractalConfigFile)
 }
 
 /**
@@ -49,32 +56,36 @@ app
   .parse(process.argv)
 
 
-// Constants
-const compBaseName = 'component'
-const compConfigBaseName = '.config'
-const extensions =
-  { "handlebars": '.hbs'
-  , "nunjucks": '.nun'
-  , "javascript": '.js'
-  , "json": '.json'
-  , "yaml": '.yaml'
-  , "css": '.css'
-  , "scss": '.scss'
-  , "markdown": '.md' }
-
-// Vars
-let comp =
-  { 'template': 'base'
-  , 'type': 'nunjucks'
-  , 'path': ''
-  , 'fullPath': ''
-  , 'config': false
-  , 'readme': false
-  , 'styles': 'css'
+// Esto crea el archivo de configuración en caso de no existir
+setConfig (
+  { "compBaseName": 'component'
+  , "compConfigBaseName": '.config'
+  , "extensions":
+    { "handlebars": '.hbs'
+    , "nunjucks": '.nun'
+    , "javascript": '.js'
+    , "json": '.json'
+    , "yaml": '.yaml'
+    , "css": '.css'
+    , "scss": '.scss'
+    , "markdown": '.md' }
+  , "comp":
+    { 'template': 'base'
+    , 'type': 'nunjucks'
+    , 'path': ''
+    , 'fullPath': ''
+    , 'config': false
+    , 'readme': false
+    , 'styles': 'css' }
   }
+)
 
-// Init
-init ( { extensions, comp } )
+// Lee el archivo de configuración
+const config = readConfig()
+const compBaseName = config.compBaseName
+const compConfigBaseName = config.compConfigBaseName
+const extensions = config.extensions
+const comp = config.comp
 
 // If there is no name use the current folder instead.
 if(!app.args[0]) {
@@ -94,13 +105,8 @@ if(!app.args[0]) {
   }
 }
 
-// --all
-if (app.all) {
-  comp.type = 'nunjucks'
-  comp.config = 'javascript'
-  comp.readme = true
-  comp.styles = 'css'
-} else {
+// not all
+if (app.all === false) {
   // Engine
   comp.type = app.type
 
