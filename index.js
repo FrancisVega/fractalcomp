@@ -23,7 +23,7 @@ app
   .version('1.0.23')
   .option('-a, --all', 'make component with all files (Default formats)')
   .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars)$/i, 'nunjucks')
-  .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'scss')
+  .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'css')
   .option('-T, --template <name>', 'File base template')
   .option('-r, --readme', 'readme.md file')
   .option('-y, --yaml', 'yaml file')
