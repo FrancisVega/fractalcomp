@@ -8,20 +8,6 @@ const os = require('os')
 const colors = require('colors')
 const util = require('./util.js')
 
-// Constants
-const compBaseName = 'component'
-const compConfigBaseName = '.config'
-const extensions =
-  { "handlebars": '.hbs'
-  , "nunjucks": '.nun'
-  , "javascript": '.js'
-  , "json": '.json'
-  , "yaml": '.yaml'
-  , "css": '.css'
-  , "scss": '.scss'
-  , "markdown": '.md' }
-
-
 /**
  * Get a template file replacing @@name with name
  * @parms ftype {string} File type
@@ -47,15 +33,29 @@ app
   .option('-v, --verbose', 'Verbose mode')
   .parse(process.argv)
 
+
+// Constants
+const compBaseName = 'component'
+const compConfigBaseName = '.config'
+const extensions =
+  { "handlebars": '.hbs'
+  , "nunjucks": '.nun'
+  , "javascript": '.js'
+  , "json": '.json'
+  , "yaml": '.yaml'
+  , "css": '.css'
+  , "scss": '.scss'
+  , "markdown": '.md' }
+
+// Vars
 let comp =
   { 'template': 'base'
   , 'type': 'nunjucks'
   , 'path': ''
-  , 'name': 'newcomponent'
   , 'fullPath': ''
   , 'config': false
   , 'readme': false
-  , 'styles': 'scss'
+  , 'styles': 'css'
   }
 
 // If there is no name use the current folder instead.
