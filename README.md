@@ -33,6 +33,9 @@ Options:
 npm -g install newfractalcomp
 ```
 
+### Config defaults
+The scripts creates a configuration file (json) in ~/.fractalcomp called config.json to set defaults values
+
 ### Examples of use
 
 ```bash
