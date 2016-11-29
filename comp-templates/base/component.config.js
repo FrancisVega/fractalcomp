@@ -3,6 +3,7 @@ module.exports = {
   name: "@@name",
   context: {
     mods: [],
+    classes: "",
     mix: ""
   }
 }

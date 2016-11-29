@@ -1,6 +1,8 @@
 {
   "name": "@@name",
   "context": {
-    "mods": ["mod01", "mod02"]
+    "mods": [""],
+    "classes": [""],
+    "mix": ""
   }
 }
