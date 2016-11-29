@@ -6,7 +6,6 @@ const exec = require('child_process').exec
 const fs = require('fs-extra')
 const os = require('os')
 const colors = require('colors')
-const camelCase = require('camelcase')
 const util = require('./util.js')
 
 /**
@@ -15,28 +14,16 @@ const util = require('./util.js')
  * @parms name {string} Content of @@name
  * @return {string}
  */
-const getTemplate = (ctype, ftype, name) => {
-  const FTYPES = {
-    "nunjucks": "component.nun",
-    "handlebars": "component.hbs",
-    "css": "component.css",
-    "scss": "component.scss",
-    "readme": "README.md",
-    "config_yaml": "component.config.yaml",
-    "config_json": "component.config.json",
-    "config_js": "component.config.js"
-  }
-  return fs.readFileSync(
-    `${__dirname}/comp-templates/${ctype}/${FTYPES[ftype]}`, 'utf8')
-    .replace(/@@name/g, name)
-}
+const getTemplate = (ctype, ftype, name) =>
+  fs.readFileSync ( `${__dirname}/comp-templates/${ctype}/${ftype}` , 'utf8' )
+    .replace( /@@name/g, name )
 
 const app = require('commander')
 app
-  .version('1.0')
+  .version('1.0.23')
   .option('-a, --all', 'make component with all files (Default formats)')
   .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars)$/i, 'nunjucks')
-  .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'scss')
+  .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'css')
   .option('-T, --template <name>', 'File base template')
   .option('-r, --readme', 'readme.md file')
   .option('-y, --yaml', 'yaml file')
@@ -47,44 +34,55 @@ app
   .option('-N, --nc', 'Doest create generic comments')
   .parse(process.argv)
 
-let comp = {
-  "template": "base",
-  "type": "nunjucks",
-  "path": "",
-  "name": "newcomponent",
-  "fullPath": "",
-  "config": false,
-  "readme": false,
-  "styles": "scss"
-}
+
+// Constants
+const compBaseName = 'component'
+const compConfigBaseName = '.config'
+const extensions =
+  { "handlebars": '.hbs'
+  , "nunjucks": '.nun'
+  , "javascript": '.js'
+  , "json": '.json'
+  , "yaml": '.yaml'
+  , "css": '.css'
+  , "scss": '.scss'
+  , "markdown": '.md' }
+
+// Vars
+let comp =
+  { 'template': 'base'
+  , 'type': 'nunjucks'
+  , 'path': ''
+  , 'fullPath': ''
+  , 'config': false
+  , 'readme': false
+  , 'styles': 'css'
+  }
 
 // If there is no name use the current folder instead.
 if(!app.args[0]) {
   comp.name = path.basename(process.cwd())
     .split(/\d+[-_ ]+/)
-    .join("")
-  comp.dir = "."
+    .join('')
+  comp.dir = '.'
   comp.fullPath = `${comp.dir}/${comp.name}`
 } else {
   // if -d create a directory with the component name
   comp.name = path.basename(app.args[0])
   comp.fullPath = app.args[0]
   if (app.directory) {
-    comp.dir = path.dirname(app.args[0]) + "/" + comp.name
+    comp.dir = path.dirname(app.args[0]) + '/' + comp.name
   } else {
     comp.dir = path.dirname(app.args[0])
   }
 }
 
-// camelcase the comp name
-//comp.name = camelCase(comp.name)
-
 // --all
 if (app.all) {
-  comp.type = "nunjucks"
-  comp.config = "javascript"
+  comp.type = 'nunjucks'
+  comp.config = 'javascript'
   comp.readme = true
-  comp.styles = "css"
+  comp.styles = 'css'
 } else {
   // Engine
   comp.type = app.type
@@ -108,53 +106,60 @@ if (app.template)
 try { fs.mkdirsSync(comp.dir) } catch (e) {}
 
 // comp
-switch (comp.type) {
-  case 'nunjucks':
-    util.writeFile(`${comp.dir}/${comp.name}.nun`, getTemplate(comp.template, "nunjucks", comp.name))
-    break
-  case 'handlebars':
-    util.writeFile(`${comp.dir}/${comp.name}.hbs`, getTemplate(comp.template, "handlebars", comp.name))
-    break
-}
+util.writeFile
+  ( `${comp.dir}/${comp.name}${extensions[comp.type]}`
+  , getTemplate
+    ( comp.template
+    , `${compBaseName}${extensions[comp.type]}`
+    , comp.name
+    )
+  )
 
 // config
-switch (comp.config) {
-  case 'javascript':
-    util.writeFile(`${comp.dir}/${comp.name}.config.js`, getTemplate(comp.template, "config_js", comp.name))
-    break
-  case 'json':
-    util.writeFile(`${comp.dir}/${comp.name}.config.json`, getTemplate(comp.template, "config_json", comp.name))
-    break
-  case 'yaml':
-    util.writeFile(`${comp.dir}/${comp.name}.config.yaml`, getTemplate(comp.template, "config_yaml", comp.name))
-    break
-}
+if(comp.config)
+  util.writeFile
+    ( `${comp.dir}/${comp.name}${compConfigBaseName}${extensions[comp.config]}`
+    , getTemplate
+      ( comp.template
+      , `${compBaseName}${compConfigBaseName}${extensions[comp.config]}`
+      , comp.name
+      )
+    )
 
 // styles
-switch (comp.styles) {
-  case 'scss':
-    util.writeFile(`${comp.dir}/_${comp.name}.scss`, getTemplate(comp.template, "scss", comp.name))
-    break
-  case 'css':
-    util.writeFile(`${comp.dir}/${comp.name}.css`, getTemplate(comp.template, "css", comp.name))
-    break
-}
+if (comp.styles == "scss") { var prefix = "_" } else { var prefix = '' }
+
+util.writeFile
+  ( `${comp.dir}/${prefix}${comp.name}${extensions[comp.styles]}`
+  , getTemplate
+    ( comp.template
+    , `${compBaseName}${extensions[comp.styles]}`
+    , comp.name
+    )
+  )
 
 // readme
 if (comp.readme)
-  util.writeFile(`${comp.dir}/README.md`, getTemplate(comp.template, "readme", comp.name))
+  util.writeFile
+    ( `${comp.dir}/README.md`
+    , getTemplate
+      ( comp.template
+      , `README${extensions.markdown}`
+      , comp.name
+      )
+    )
 
 if(app.verbose) {
-  console.log("")
-  console.log("  New Fractal Component".yellow)
-  console.log("")
+  console.log('')
+  console.log('  New Fractal Component'.yellow)
+  console.log('')
   console.log('  Template:  '.gray + comp.template)
   console.log('  Name:      '.gray + comp.name)
   console.log('  Type:      '.gray + comp.type)
   console.log('  Config:    '.gray + comp.config)
   console.log('  Styles:    '.gray + comp.styles)
   console.log('  README.md: '.gray + comp.readme)
-  console.log("")
+  console.log('')
 }
 
 process.exit(0)
