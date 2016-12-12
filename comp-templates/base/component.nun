@@ -1,3 +1,3 @@
 {# @@@name #}
-<div class="@@name{% for mod in mods %} @@name--{{ mod }}{% endfor %}{{ " "+mix+"__@@name" if mix }}{% for cls in classes %} {{ cls }}{% endfor %}">
+<div class="{{ classes | BEMCSS }} {{ class }}">
 </div>

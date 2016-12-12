@@ -48,7 +48,7 @@ util.setConfig (
     , 'type': 'nunjucks'
     , 'path': ''
     , 'fullPath': ''
-    , 'config': false
+    , 'config': 'javascript'
     , 'readme': false
     , 'styles': 'css' }
   }
@@ -100,12 +100,19 @@ if (app.all === false) {
 
   // README.md
   if (app.readme) comp.readme = true
+} else {
+  comp.type = config.comp.type
+  comp.styles = config.comp.styles
+  comp.config = config.comp.config
+  comp.readme = config.comp.readme
 }
 
 
+console.log(app.template);
+
 // If the user pass a template, asign it to comp.template
 // ----------------------------------------------------------------------------
-if (app.template)
+if (app.config)
   comp.template = app.template
 
 
@@ -119,8 +126,6 @@ const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`
 // Copy base templates if doesnt exists
 fs.copySync(__dirname + '/comp-templates', compTemplates)
 
-
-console.log(compTemplates+"/"+comp.template+"/"+compBaseName+extensions[comp.type]);
 
 // Create Main Component File.
 // ----------------------------------------------------------------------------
