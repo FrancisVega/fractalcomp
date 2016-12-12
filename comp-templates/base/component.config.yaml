@@ -2,6 +2,6 @@
 # @@name
 name: "@@name"
 context:
-  modifiers:
+  mods:
   - mod01
   - mod02

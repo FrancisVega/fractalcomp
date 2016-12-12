@@ -1,8 +1,13 @@
 /* @@name */
+const cname = "@@name"
 module.exports = {
-  name: "@@name",
+  name: cname,
   context: {
-    modifiers: [],
-    mix: ""
+    class: "",
+    classes: {
+      block: cname,
+      mods: [""],
+      mix: ""
+    }
   }
 }
