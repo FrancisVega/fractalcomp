@@ -125,8 +125,6 @@ const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`;
 if (util.isDir(compTemplates) === false) {
   fs.mkdirsSync(compTemplates);
   fs.copySync(path.join(__dirname, 'comp-templates'), compTemplates);
-} else {
-  console.log("ya exists");
 }
 
 // Create Main Component File.
