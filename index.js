@@ -3,7 +3,6 @@
 // Import modules
 // -----------------------------------------------------------------------------------------------
 const path = require('path');
-const exec = require('child_process').exec;
 const fs = require('fs-extra');
 const os = require('os');
 const colors = require('colors');
@@ -102,14 +101,11 @@ if (app.all === false) {
   // README.md
   if (app.readme) comp.readme = true;
 } else {
-  console.log('ALL');
   comp.type = config.comp.type;
   comp.styles = config.comp.styles;
   comp.config = config.comp.config;
   comp.readme = config.comp.readme;
 }
-
-console.log(comp);
 
 // If the user pass a template, asign it to comp.template
 // -----------------------------------------------------------------------------------------------
@@ -126,7 +122,12 @@ try { fs.mkdirsSync(comp.dir); } catch (e) { /* */ }
 const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`;
 
 // Copy base templates if doesnt exists
-fs.copySync(path.join(__dirname, 'comp-templates'), compTemplates);
+if (util.isDir(compTemplates) === false) {
+  fs.mkdirsSync(compTemplates);
+  fs.copySync(path.join(__dirname, 'comp-templates'), compTemplates);
+} else {
+  console.log("ya exists");
+}
 
 // Create Main Component File.
 // -----------------------------------------------------------------------------------------------
