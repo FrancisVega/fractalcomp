@@ -1,32 +1,32 @@
 {
-    "name": "newfractalcomp",
-    "version": "1.0.33",
-    "description": "Creates fractal file components",
-    "bin": {
-        "newcomp": "index.js"
-    },
-    "main": "index.js",
-    "scripts": {
-        "test": ""
-    },
-    "keywords": [
-        "fractal",
-        "component",
-        "cli",
-        "patternlibrary",
-        "designsystem",
-        "design",
-        "system"
-    ],
-    "author": "Francis Vega <hisconer@gmail.com> (inartx.com)",
-    "license": "ISC",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/FrancisVega/fractalcomp"
-    },
-    "dependencies": {
-        "colors": "^1.1.2",
-        "commander": "^2.9.0",
-        "fs-extra": "^0.27.0"
-    }
+  "name": "newfractalcomp",
+  "version": "1.0.34",
+  "description": "Creates fractal file components",
+  "bin": {
+    "newcomp": "index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [
+    "fractal",
+    "component",
+    "cli",
+    "patternlibrary",
+    "designsystem",
+    "design",
+    "system"
+  ],
+  "author": "Francis Vega <hisconer@gmail.com> (inartx.com)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FrancisVega/fractalcomp"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
+    "fs-extra": "^0.27.0"
+  }
 }
