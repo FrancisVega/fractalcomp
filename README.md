@@ -35,7 +35,7 @@ npm -g install newfractalcomp
 
 ### Config defaults
 
-The scripts creates a configuration file and a directory with template(s) in ~/.fractalcomp called config.json to set defaults values. If you want to create new templates you have to put inside ~/.fractalcomp/comp-templates. Notice how the base template is created at ~/.fractalcomp/comp-templates/base
+The scripts creates a configuration file and a directory with template(s) in ~/fractalcomp called config.json to set defaults values. If you want to create new templates you have to put inside ~/fractalcomp/comp-templates. Notice how the base template is created at ~/fractalcomp/comp-templates/base
 
 
 ### Examples of use
