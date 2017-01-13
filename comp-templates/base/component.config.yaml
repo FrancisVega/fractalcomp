@@ -3,5 +3,5 @@
 name: "@@name"
 context:
   mods:
-  - mod01
-  - mod02
+  - mod1
+  - mod2

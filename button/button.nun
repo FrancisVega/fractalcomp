@@ -1,0 +1,9 @@
+{% if link == true %}
+<div class="button {{ classes | BEMCSS }}" {{ data | HTMLDATA }}>
+    <span class="button__text">{{ text }}</span>
+</div>
+{% else %}
+<button class="button {{ classes | BEMCSS }}">
+    <span class="button__text">{{ text }}</span>
+</button>
+{% endif %}
