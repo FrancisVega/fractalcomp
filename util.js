@@ -49,12 +49,12 @@ module.exports = {
   /**
    * Create ~/.fractalcomp/config.json if doesn't exists.
    */
-  setConfig: function(data) {
-    const fractalConfigDir = `${os.homedir()}/fractalcomp`
-    const fractalConfigFile = `${fractalConfigDir}/config.json`
+  setConfig: function(baseDir, configFile, data) {
+    const fractalConfigDir = baseDir + "fractalComps";
+    const fractalConfigFile = baseDir + "/" + configFile;
     try { fs.mkdirsSync(fractalConfigDir) } catch (e) {}
-    if (this.isFile(fractalConfigFile) === false) {
-      this.writeJSON(fractalConfigFile, data)
+    if (this.isFile(baseDir + "/" + configFile) === false) {
+      this.writeJSON(baseDir + "/" + configFile, data)
     }
   },
 
@@ -62,9 +62,9 @@ module.exports = {
    * Read config file
    * @return {string} content of config file in JSON format
    */
-  readConfig: function () {
-    const fractalConfigDir = `${os.homedir()}/fractalcomp`
-    const fractalConfigFile = `${fractalConfigDir}/config.json`
+  readConfig: function (baseDir, configFile) {
+    const fractalConfigDir = baseDir + "fractalComps";
+    const fractalConfigFile = baseDir + "/" + configFile;
     return this.readJSON(fractalConfigFile)
   },
 

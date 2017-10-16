@@ -7,6 +7,9 @@ const fs = require('fs-extra');
 const os = require('os');
 const colors = require('colors');
 const util = require('./util.js');
+const findRoot = require('find-root');
+
+const ROOT = findRoot(process.cwd());
 
 
 // Commander APP
@@ -15,7 +18,7 @@ const app = require('commander');
 app
   .version('1.0.3')
   .option('-a, --all', 'make component with all files (Default formats)')
-  .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars)$/i, 'nunjucks')
+  .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars|twig)$/i, 'nunjucks')
   .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'css')
   .option('-T, --template <name>', 'File base template')
   .option('-r, --readme', 'readme.md file')
@@ -28,36 +31,43 @@ app
   .parse(process.argv);
 
 
-// Create config file
-// -----------------------------------------------------------------------------------------------
-util.setConfig({
-  compBaseName: 'component',
-  compConfigBaseName: '.config',
-  extensions: {
-    handlebars: '.hbs',
-    nunjucks: '.nun',
-    javascript: '.js',
-    json: '.json',
-    yaml: '.yaml',
-    css: '.css',
-    scss: '.scss',
-    markdown: '.md',
-  },
-  comp: {
-    template: 'base',
-    type: 'nunjucks',
-    path: '',
-    fullPath: '',
-    config: 'javascript',
-    readme: false,
-    styles: 'css',
-  },
-});
+if (util.isFile(ROOT + "/.newfrcl")) {
+  console.log("Ok");
+} else {
+  console.log("\n  No se ha encontrado el archivo de configuración .newfrcl");
+  console.log("  Se ha creado uno nuevo, edítalo para ajustarlo a tus necesidades\n");
 
+  // Create config file
+  // -----------------------------------------------------------------------------------------------
+  util.setConfig(ROOT, ".newfrcl", {
+    compBaseName: 'component',
+    compConfigBaseName: '.config',
+    extensions: {
+      handlebars: '.hbs',
+      nunjucks: '.nun',
+      javascript: '.js',
+      json: '.json',
+      yaml: '.yaml',
+      css: '.css',
+      scss: '.scss',
+      markdown: '.md',
+    },
+    comp: {
+      template: 'base',
+      type: 'nunjucks',
+      path: '',
+      fullPath: '',
+      config: 'javascript',
+      readme: false,
+      styles: 'css',
+    },
+  });
+
+}
 
 // Read config file
 // -----------------------------------------------------------------------------------------------
-const config = util.readConfig();
+const config = util.readConfig(ROOT, '.newfrcl');
 const compBaseName = config.compBaseName;
 const compConfigBaseName = config.compConfigBaseName;
 const extensions = config.extensions;
@@ -119,7 +129,8 @@ if (app.config) {
 try { fs.mkdirsSync(comp.dir); } catch (e) { /* */ }
 
 // Custom comp-templates
-const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`;
+//const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`;
+const compTemplates = ROOT + "/comp-templates";
 
 // Copy base templates if doesnt exists
 if (util.isDir(compTemplates) === false) {

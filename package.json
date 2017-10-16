@@ -27,6 +27,7 @@
     "dependencies": {
         "colors": "^1.1.2",
         "commander": "^2.9.0",
+        "find-root": "^1.1.0",
         "fs-extra": "^0.27.0"
     }
 }
