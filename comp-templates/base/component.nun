@@ -1,3 +1,2 @@
 {# @@@name #}
-<div class="{{ classes | BEMCSS }} {{ class }}">
-</div>
+<div class="@@name"></div>

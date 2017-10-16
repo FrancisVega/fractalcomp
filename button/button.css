@@ -1,0 +1,41 @@
+
+/* @kuddos component */
+
+.kuddos {
+  display: block;
+  padding: 1.25rem 2rem;
+  color: $white;
+  background-color: $pyrite;
+  border-radius: 2px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $pyriteDark;
+  }
+}
+
+.button__text {
+  @mixin f3;
+
+  display: block;
+  text-align: center;
+}
+
+.button--outlined {
+  color: $pyrite;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px $pyrite;
+
+  &:hover {
+    background-color: hexa($pyriteDark, 0.2);
+  }
+}
+
+.button--error {
+  color: $w0;
+  background-color: red;
+
+  &:hover {
+    background-color: darkred;
+  }
+}

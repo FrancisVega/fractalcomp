@@ -4,6 +4,17 @@ const os = require('os')
 module.exports = {
 
   /**
+   * Check if dir exists
+   */
+  isDir: (f) => {
+    try {
+      return fs.statSync(f).isDirectory();
+    } catch (e) {
+      return false;
+    }
+  },
+
+  /**
    * Check if file exists
    */
   isFile: function(f) {
