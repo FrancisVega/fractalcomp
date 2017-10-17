@@ -32,7 +32,9 @@ app
 
 
 if (util.isFile(ROOT + "/.newfrcl")) {
-  console.log("Ok");
+
+  console.log("Component created");
+
 } else {
   console.log("\n  There is no config file .newfrcl");
   console.log("  One has been created at root foder. Edit .newfrcl file to change preferences.\n");
