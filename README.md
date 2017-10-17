@@ -14,7 +14,7 @@ Usage: newcomp [options]
 Options:
 
   -a, --all             make component with all files (Default formats)
-  -t, --type <type>     Component Engine (nunjucks|handlebars)
+  -t, --type <type>     Component Engine (nunjucks|handlebars|twig)
   -T, --styles <type>   Styles format
   -T, --template <name> File base template
   -r, --readme          readme.md file
@@ -35,7 +35,7 @@ npm -g install newfractalcomp
 
 ### Config defaults
 
-The scripts creates a configuration file and a directory with template(s) in ~/fractalcomp called config.json to set defaults values. If you want to create new templates you have to put inside ~/fractalcomp/comp-templates. Notice how the base template is created at ~/fractalcomp/comp-templates/base
+The scripts creates a configuration file (.newfrctl) and a directory (comps-templates) with template(s) at project root folder (same as package.json) called .newfrctl to set defaults values. If you want to create new templates you have to put inside ~/fractalcomp/comp-templates. Notice how the base template is created at ~/fractalcomp/comp-templates/base
 
 
 ### Examples of use

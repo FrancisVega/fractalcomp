@@ -34,8 +34,8 @@ app
 if (util.isFile(ROOT + "/.newfrcl")) {
   console.log("Ok");
 } else {
-  console.log("\n  No se ha encontrado el archivo de configuración .newfrcl");
-  console.log("  Se ha creado uno nuevo, edítalo para ajustarlo a tus necesidades\n");
+  console.log("\n  There is no config file .newfrcl");
+  console.log("  One has been created at root foder. Edit .newfrcl file to change preferences.\n");
 
   // Create config file
   // -----------------------------------------------------------------------------------------------
@@ -45,6 +45,7 @@ if (util.isFile(ROOT + "/.newfrcl")) {
     extensions: {
       handlebars: '.hbs',
       nunjucks: '.nun',
+      twig: '.twig',
       javascript: '.js',
       json: '.json',
       yaml: '.yaml',
@@ -54,7 +55,7 @@ if (util.isFile(ROOT + "/.newfrcl")) {
     },
     comp: {
       template: 'base',
-      type: 'nunjucks',
+      type: 'twig',
       path: '',
       fullPath: '',
       config: 'javascript',
