@@ -64,6 +64,8 @@ if (util.isFile(ROOT + "/.newfrcl")) {
     },
   });
 
+  process.exit(0);
+
 }
 
 // Read config file
