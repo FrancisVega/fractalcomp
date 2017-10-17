@@ -16,7 +16,7 @@ const ROOT = findRoot(process.cwd());
 // -----------------------------------------------------------------------------------------------
 const app = require('commander');
 app
-  .version('1.0.3')
+  .version('2.0.0')
   .option('-a, --all', 'make component with all files (Default formats)')
   .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars|twig)$/i, 'nunjucks')
   .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'css')
