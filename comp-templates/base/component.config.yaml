@@ -1,7 +1,0 @@
----
-# @@name
-name: "@@name"
-context:
-  mods:
-  - mod1
-  - mod2
