@@ -13,15 +13,7 @@ Usage: newcomp [options]
 
 Options:
 
-  -a, --all             make component with all files (Default formats)
-  -t, --type <type>     Component Engine (nunjucks|handlebars|twig)
-  -T, --styles <type>   Styles format
   -T, --template <name> File base template
-  -r, --readme          readme.md file
-  -y, --yaml            yaml file
-  -j, --json            json file
-  -J, --javascript      javascript file
-  -d, --directory       Create a directory for the component files
   -v, --verbose         Verbose mode
   -h, --help            output usage information
   -V, --version         output the version number
@@ -41,11 +33,11 @@ The scripts creates a configuration file (.newfrctl) and a directory (comps-temp
 ### Examples of use
 
 ```bash
-# Create a button component with the nunjucks file
-newcomp button --type nunjucks --styles css --json
+# Create a button component
+newcomp button
 ```
 
 ```bash
-# Create a myCard component with all the defaults files and the card template
-newcomp myCard --template card --all
+# Create a myCard component with the component file in the card folder
+newcomp myCard --template card
 ```

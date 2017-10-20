@@ -16,18 +16,9 @@ const ROOT = findRoot(process.cwd());
 // -----------------------------------------------------------------------------------------------
 const app = require('commander');
 app
-  .version('2.0.0')
-  .option('-a, --all', 'make component with all files (Default formats)')
-  .option('-t --type <type>', 'Component Engine', /^(nunjucks|handlebars|twig)$/i, 'nunjucks')
-  .option('-s --styles <type>', 'Styles format', /^(css|scss)$/i, 'css')
+  .version('2.0.6')
   .option('-T, --template <name>', 'File base template')
-  .option('-r, --readme', 'readme.md file')
-  .option('-y, --yaml', 'yaml file')
-  .option('-j, --json', 'json file')
-  .option('-J, --javascript', 'javascript file')
-  .option('-d, --directory', 'Create a directory for the components files')
   .option('-v, --verbose', 'Verbose mode')
-  .option('-N, --nc', 'Doest create generic comments')
   .parse(process.argv);
 
 
