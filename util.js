@@ -76,8 +76,13 @@ module.exports = {
    * @return {string}
    */
   getTemplate: function(baseCompTemplatesDir, ctype, ftype, name) {
-    return fs.readFileSync ( `${baseCompTemplatesDir}/${ctype}/${ftype}` , 'utf8' )
-      .replace( /@@name/g, name )
+    if (this.isFile(`${baseCompTemplatesDir}/${ctype}/${ftype}`)) {
+      return fs.readFileSync ( `${baseCompTemplatesDir}/${ctype}/${ftype}` , 'utf8' )
+        .replace( /@@name/g, name )
+    } else {
+      console.log(`${ctype}/${ftype} doesn't exists. Better call Saul.`.red);
+      process.exit(0);
+    }
   }
 
 }

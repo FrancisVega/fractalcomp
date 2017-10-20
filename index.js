@@ -32,9 +32,6 @@ app
 
 
 if (util.isFile(ROOT + "/.newfrcl")) {
-
-  console.log("Component created");
-
 } else {
   console.log("\n  There is no config file .newfrcl");
   console.log("  One has been created at root foder. Edit .newfrcl file to change preferences.\n");
@@ -74,29 +71,17 @@ if (util.isFile(ROOT + "/.newfrcl")) {
 // -----------------------------------------------------------------------------------------------
 const config = util.readConfig(ROOT, '.newfrcl');
 const compBaseName = config.compBaseName;
+const compTemplateName = config.comp.template;
 const compConfigBaseName = config.compConfigBaseName;
 const extensions = config.extensions;
 const comp = config.comp;
 
 
-// If there is no name use the current folder instead.
+// Create a directory with the component name
 // -----------------------------------------------------------------------------------------------
-if (!app.args[0]) {
-  comp.name = path.basename(process.cwd())
-    .split(/\d+[-_ ]+/)
-    .join('');
-  comp.dir = '.';
-  comp.fullPath = `${comp.dir}/${comp.name}`;
-} else {
-  // if -d create a directory with the component name
-  comp.name = path.basename(app.args[0]);
-  comp.fullPath = app.args[0];
-  if (app.directory) {
-    comp.dir = `${path.dirname(app.args[0])}/${comp.name}`;
-  } else {
-    comp.dir = path.dirname(app.args[0]);
-  }
-}
+comp.name = path.basename(app.args[0]);
+comp.fullPath = app.args[0];
+comp.dir = `${path.dirname(app.args[0])}/${comp.name}`;
 
 
 // Settings app values
@@ -124,17 +109,11 @@ if (app.all === false) {
 
 // If the user pass a template, asign it to comp.template
 // -----------------------------------------------------------------------------------------------
-if (app.config) {
+if (app.template) {
   comp.template = app.template;
 }
 
-
-// Make component dir if needed.
-// -----------------------------------------------------------------------------------------------
-try { fs.mkdirsSync(comp.dir); } catch (e) { /* */ }
-
 // Custom comp-templates
-//const compTemplates = `${os.homedir()}/fractalcomp/comp-templates`;
 const compTemplates = ROOT + "/comp-templates";
 
 // Copy base templates if doesnt exists
@@ -145,10 +124,18 @@ if (util.isDir(compTemplates) === false) {
 
 // Create Main Component File.
 // -----------------------------------------------------------------------------------------------
-util.writeFile(
-  `${comp.dir}/${comp.name}${extensions[comp.type]}`,
-  util.getTemplate(compTemplates, comp.template, `${compBaseName}${extensions[comp.type]}`, comp.name)
-);
+if(util.isFile(`${compTemplates}/${comp.template}/${compBaseName}${extensions[comp.type]}`)){
+  // Make component dir if needed.
+  // -----------------------------------------------------------------------------------------------
+  try { fs.mkdirsSync(comp.dir); } catch (e) { /* */ }
+  util.writeFile(
+    `${comp.dir}/${comp.name}${extensions[comp.type]}`,
+    util.getTemplate(compTemplates, comp.template, `${compBaseName}${extensions[comp.type]}`, comp.name)
+  );
+} else {
+  console.log(`The template file ${compTemplates}/${comp.template}/${compBaseName}${extensions[comp.type]} doesn't exists`.red);
+  process.exit(0);
+}
 
 
 // Create Component Config File.
