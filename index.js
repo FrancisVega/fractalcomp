@@ -19,14 +19,12 @@ app
   .option('-T, --template <name>', 'File base template')
   .parse(process.argv);
 
-/*
-  Si el archivo de configuración no existe
-  lo creamos con una configuración base.
-*/
-
+// Si el archivo de configuración no existe lo creamos.
+// ----------------------------------------------------------------------------
 if (!util.isFile(ROOT + "/.newfrcl")) {
   console.log("\n  There is no config file .newfrcl");
   console.log("  One has been created at root foder. Edit .newfrcl file to change preferences.\n");
+
   util.setConfig(ROOT, ".newfrcl", {
     compBaseName: 'component',
     compConfigBaseName: '.config',
@@ -78,6 +76,7 @@ if (util.isDir(compTemplates) === false) {
   fs.copySync(path.join(__dirname, 'comp-templates'), compTemplates);
 }
 
+// Template from user
 if(app.template) {
   comp.template = app.template;
 }
@@ -103,44 +102,39 @@ if(util.isFile(`${compTemplates}/${comp.template}/${compBaseName}${extensions[co
 // Create Component Config File.
 // ----------------------------------------------------------------------------
 if (comp.config) {
-  util.writeFile(
-    `${comp.dir}/${comp.name}${compConfigBaseName}${extensions[comp.config]}`,
-    util.getTemplate(
+  const configFile = `${comp.dir}/${comp.name}${compConfigBaseName}${extensions[comp.config]}`;
+  const configData = util.getTemplate(
       compTemplates,
       comp.template,
       `${compBaseName}${compConfigBaseName}${extensions[comp.config]}`,
       comp.name
     )
-  );
+  util.writeFile(configFile, configData);
 }
 
 // Create Component Style File.
 // ----------------------------------------------------------------------------
-let prefix = '';
-if (comp.styles === 'scss') { prefix = '_'; } else { prefix = ''; }
-
-util.writeFile(
-  `${comp.dir}/${prefix}${comp.name}${extensions[comp.styles]}`,
-  util.getTemplate(
+const prefix = comp.styles === 'scss' ? '_' : '';
+const styleFile = `${comp.dir}/${comp.name}${extensions[comp.styles]}`;
+const styleData = util.getTemplate(
     compTemplates,
     comp.template,
-    `${compBaseName}${extensions[comp.styles]}`,
+   `${compBaseName}${extensions[comp.styles]}`,
     comp.name
-  )
-);
+  );
+util.writeFile(styleFile, styleData);
 
 // Create Readme File.
 // ----------------------------------------------------------------------------
 if (comp.readme) {
-  util.writeFile(
-    `${comp.dir}/README.md`,
-    util.getTemplate(
+  const readmeFile = `${comp.dir}/README.md`;
+  const readmeData = util.getTemplate(
       compTemplates,
       comp.template,
       `README${extensions.markdown}`,
       comp.name
-    )
-  );
+    );
+  util.writeFile(readmeFile, readmeData);
 }
 
 // Bye.

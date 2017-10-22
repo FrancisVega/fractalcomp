@@ -75,12 +75,12 @@ module.exports = {
    * @parms name {string} Content of @@name
    * @return {string}
    */
-  getTemplate: function(rootFolderTemplate, componentType, fileType, componentName) {
-    if (this.isFile(`${rootFolderTemplate}/${componentType}/${fileType}`)) {
-      const fileContent = fs.readFileSync ( `${rootFolderTemplate}/${componentType}/${fileType}`, 'utf8' );
+  getTemplate: function(rootFolderTemplate, componentTemplate, fileType, componentName) {
+    if (this.isFile(`${rootFolderTemplate}/${componentTemplate}/${fileType}`)) {
+      const fileContent = fs.readFileSync ( `${rootFolderTemplate}/${componentTemplate}/${fileType}`, 'utf8' );
       return fileContent.replace( /@@name/g, componentName );
     } else {
-      console.log(`${componentType}/${fileType} doesn't exists. Better call Saul.`.red);
+      console.log(`${componentTemplate}/${fileType} doesn't exists. Better call Saul.`.red);
       process.exit(0);
     }
   }
