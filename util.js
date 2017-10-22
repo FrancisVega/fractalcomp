@@ -71,16 +71,16 @@ module.exports = {
 
   /**
    * Get a template file replacing @@name with name
-   * @parms ftype {string} File type
+   * @parms fileType {string} File type
    * @parms name {string} Content of @@name
    * @return {string}
    */
-  getTemplate: function(baseCompTemplatesDir, ctype, ftype, name) {
-    if (this.isFile(`${baseCompTemplatesDir}/${ctype}/${ftype}`)) {
-      return fs.readFileSync ( `${baseCompTemplatesDir}/${ctype}/${ftype}` , 'utf8' )
-        .replace( /@@name/g, name )
+  getTemplate: function(rootFolderTemplate, componentType, fileType, componentName) {
+    if (this.isFile(`${rootFolderTemplate}/${componentType}/${fileType}`)) {
+      const fileContent = fs.readFileSync ( `${rootFolderTemplate}/${componentType}/${fileType}`, 'utf8' );
+      return fileContent.replace( /@@name/g, componentName );
     } else {
-      console.log(`${ctype}/${ftype} doesn't exists. Better call Saul.`.red);
+      console.log(`${componentType}/${fileType} doesn't exists. Better call Saul.`.red);
       process.exit(0);
     }
   }
