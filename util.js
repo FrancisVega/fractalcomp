@@ -1,4 +1,5 @@
 const fs = require('fs-extra')
+const path = require('path')
 const os = require('os')
 
 module.exports = {
@@ -68,6 +69,9 @@ module.exports = {
     return this.readJSON(fractalConfigFile)
   },
 
+  getFileFromExtension: function (dir, extension) {
+    return fs.readdirSync(dir).filter(file => path.extname(file) == extension);
+  },
 
   /**
    * Get a template file replacing @@name with name
@@ -86,4 +90,3 @@ module.exports = {
   }
 
 }
-
