@@ -6,59 +6,42 @@ const os = require('os');
 const colors = require('colors');
 const util = require('./util.js');
 const findRoot = require('find-root');
+const app = require('commander');
 const ROOT = findRoot(process.cwd());
 
 // Commander APP
 // ----------------------------------------------------------------------------
-const app = require('commander');
 app
   .version('3.0.0')
-  .option('-T, --template <name>', 'File base template')
-  .parse(process.argv);
+  .option('-T, --template <name>', 'File base template', 'base')
+  .command('create <name>', 'Create config file and base templates', {isDefault: true}).alias('p')
 
-// Si el archivo de configuración no existe lo creamos.
+app
+  .command('init', 'Create config file and base templates').alias('i')
+
+app.parse(process.argv);
+
+// Create a directory with the component name
 // ----------------------------------------------------------------------------
-if (!util.isFile(ROOT + "/.newfrcl")) {
-
-  console.log("\n  There is no config file .newfrcl");
-  console.log("  One has been created at root foder. Edit .newfrcl file to change preferences.\n");
-
-  const configFileData = {
-    baseName: 'component',
-    template: 'base',
-    files: [
-      '.html',
-      '.js',
-      '.json',
-      '.yaml',
-      '.md',
-      '.css',
-      '.scss',
-    ],
-  };
-
-  fs.writeFileSync(ROOT + "/.newfrcl", JSON.stringify(configFileData, null, 4))
+if (!app.args[1]) {
   process.exit(0);
+} else {
+  if (!util.isFile(ROOT + "/.newfrcl")) {
+    const i = require('./index-init.js');
+    process.exit(0);
+  }
 }
 
 // Custom comp-templates folder
 const compRootFolder = ROOT + "/comp-templates";
-
-// Si el directorio con los componentes base no existe lo creamos y copiamos los
-// componentes base por defecto.
-if (!util.isDir(compRootFolder)) {
-  fs.mkdirsSync(compRootFolder);
-  fs.copySync(path.join(__dirname, 'comp-templates'), compRootFolder);
-}
 
 // Read config file
 // ----------------------------------------------------------------------------
 const config = util.readConfig(ROOT, '.newfrcl');
 const comp = config;
 
-// Create a directory with the component name
-// ----------------------------------------------------------------------------
-const fullPath = app.args[0];
+
+const fullPath = app.args[1];
 const componentName = path.basename(fullPath);
 const componentDir = `${path.dirname(fullPath)}/${componentName}`;
 
