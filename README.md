@@ -1,3 +1,6 @@
+# Discontinued, use [Komp](https://github.com/FrancisVega/komp) instead.
+
+
 # Fractal Comp
 
 Create boilerplates fractal components
